@@ -80,9 +80,11 @@
 
 <script>
   let residents = JSON.parse(localStorage.getItem("vaultResidents")) || [];
-
-  let residents = [];
   let editingIndex = null;
+
+  function saveResidents() {
+    localStorage.setItem("vaultResidents", JSON.stringify(residents));
+  }
 
   function toggleForm() {
     document.getElementById("addFormContainer").classList.toggle("hidden");
@@ -120,7 +122,6 @@
       if (!rooms[r.job]) rooms[r.job] = [];
       rooms[r.job].push({ ...r, index });
     });
-
     table.innerHTML = "";
     for (const [room, people] of Object.entries(rooms)) {
       const list = people.map(p => `<span class='cursor-pointer underline hover:text-yellow-400' onclick='showDetails(${p.index})'>${p.firstName} ${p.lastName}${p.isChief ? " 👑" : ""}</span>`).join(", ");
@@ -177,6 +178,7 @@
     if (confirm("Supprimer ce résident ?")) {
       residents.splice(index, 1);
       editingIndex = null;
+      saveResidents();
       document.getElementById("residentDetails").classList.add("hidden");
       renderAll();
     }
@@ -212,9 +214,9 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    renderAll();
     document.getElementById("addForm").addEventListener("submit", e => {
       e.preventDefault();
-
       const firstName = document.getElementById("firstName").value;
       const lastName = document.getElementById("lastName").value;
       const gender = document.getElementById("gender").value;
@@ -223,21 +225,20 @@
       const isChief = document.getElementById("isChief").checked;
       const children = document.getElementById("children").value.split(",").map(c => c.trim()).filter(c => c);
       const level = parseInt(document.getElementById("level").value) || 1;
-
       const newData = { firstName, lastName, gender, partner, job, isChief, children, level };
-
       if (editingIndex !== null) {
         residents[editingIndex] = newData;
         editingIndex = null;
       } else {
         residents.push(newData);
       }
-
+      saveResidents();
       e.target.reset();
       document.getElementById("addFormContainer").classList.add("hidden");
       renderAll();
     });
   });
 </script>
+
 </body>
 </html>
