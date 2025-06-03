@@ -78,6 +78,11 @@
     </div>
   </div>
 
+  <div class="mt-10 bg-gray-800 p-4 rounded-xl shadow">
+    <h2 class="text-2xl mb-4">🧑‍🤝‍🧑 Résidents par sexe</h2>
+    <div class="grid grid-cols-2 gap-4" id="genderColumns"></div>
+  </div>
+
 <script>
   let residents = [];
   let editingIndex = null;
@@ -130,7 +135,13 @@
     const list = document.getElementById("residentList");
     list.innerHTML = "";
     residents.forEach((r, index) => {
-      list.innerHTML += `<li><button class='text-left w-full hover:text-yellow-300 underline' onclick='showDetails(${index})'>${r.firstName} ${r.lastName}</button></li>`;
+      list.innerHTML += `
+  <li class="flex justify-between items-center">
+    <button class='text-left hover:text-yellow-300 underline' onclick='showDetails(${index})'>
+      ${r.firstName} ${r.lastName}
+    </button>
+    <button onclick='increaseLevel(${index})' class='text-green-400 hover:text-green-600'>+1</button>
+  </li>`;
     });
   }
 
@@ -201,7 +212,51 @@
     }
   }
 
+  function renderGenderColumns() {
+    const container = document.getElementById("genderColumns");
+    container.innerHTML = "";
+
+    const femmes = residents.filter(r => r.gender === "Femme");
+    const hommes = residents.filter(r => r.gender === "Homme");
+
+    function formatList(list) {
+      return list.map(r => `
+        <div>
+          <strong>${r.firstName} ${r.lastName}</strong><br>
+          <em>${r.partner ? "💞 En couple" : "👤 Célibataire"}</em>
+        </div>
+      `).join("");
+    }
+
+    container.innerHTML = `
+      <div><h3 class="text-xl mb-2">👩 Femmes</h3>${formatList(femmes)}</div>
+      <div><h3 class="text-xl mb-2">👨 Hommes</h3>${formatList(hommes)}</div>
+    `;
+  }
+
+  function increaseLevel(index) {
+    if (residents[index].level < 50) {
+      residents[index].level += 1;
+      renderAll();
+    } else {
+      alert("Niveau maximal atteint !");
+    }
+  }
+
+  function saveToLocalStorage() {
+    localStorage.setItem("falloutResidents", JSON.stringify(residents));
+  }
+
+  function loadFromLocalStorage() {
+    const data = localStorage.getItem("falloutResidents");
+    if (data) {
+      residents = JSON.parse(data);
+    }
+  }
+
   function renderAll() {
+    renderGenderColumns();
+    saveToLocalStorage();
     renderFamilies();
     renderRooms();
     renderResidentList();
@@ -210,6 +265,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    loadFromLocalStorage();
     document.getElementById("addForm").addEventListener("submit", e => {
       e.preventDefault();
 
@@ -235,6 +291,8 @@
       document.getElementById("addFormContainer").classList.add("hidden");
       renderAll();
     });
+
+    renderAll();
   });
 </script>
 </body>
