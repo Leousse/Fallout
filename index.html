@@ -1,32 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fallout Shelter - Gestion du Vault</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-900 text-white min-h-screen p-4">
   <div class="flex max-w-7xl mx-auto gap-4">
+    <!-- Colonne principale -->
     <div class="flex-1">
       <h1 class="text-4xl font-bold mb-4">🏠 Gestion du Vault</h1>
 
+      <!-- Bouton pour afficher le formulaire -->
       <div class="mb-6">
-        <button onclick="toggleForm()" class="bg-green-600 hover:bg-green-700 p-2 rounded">➕ Ajouter un résident</button>
+        <button onclick="toggleForm()" class="bg-green-600 hover:bg-green-700 p-2 rounded">
+          ➕ Ajouter un résident
+        </button>
       </div>
 
+      <!-- Formulaire -->
       <div id="addFormContainer" class="bg-gray-800 p-4 rounded-xl shadow mb-6 hidden">
         <h2 class="text-2xl mb-2">Ajouter un résident</h2>
         <form id="addForm" class="grid grid-cols-2 gap-4">
-          <input class="p-2 rounded bg-gray-700" type="text" id="firstName" placeholder="Prénom" required>
-          <input class="p-2 rounded bg-gray-700" type="text" id="lastName" placeholder="Nom" required>
+          <input class="p-2 rounded bg-gray-700" type="text" id="firstName" placeholder="Prénom" required />
+          <input class="p-2 rounded bg-gray-700" type="text" id="lastName" placeholder="Nom" required />
+
           <select class="p-2 rounded bg-gray-700" id="gender">
             <option value="Homme">Homme</option>
             <option value="Femme">Femme</option>
           </select>
+
           <select class="p-2 rounded bg-gray-700" id="partner">
             <option value="">-- Aucun partenaire --</option>
           </select>
+
           <select class="p-2 rounded bg-gray-700" id="job">
             <option value="Centrale Electrique">Centrale Electrique</option>
             <option value="Traitement des EAux">Traitement des EAux</option>
@@ -34,26 +42,33 @@
             <option value="Infirmerie">Infirmerie</option>
             <option value="Laboratoire">Laboratoire</option>
           </select>
-          <input class="p-2 rounded bg-gray-700" type="number" id="level" placeholder="Niveau (1 à 50)" min="1" max="50" required>
+
           <label class="flex items-center gap-2">
-            <input type="checkbox" id="isChief" class="form-checkbox text-green-500">
+            <input type="checkbox" id="isChief" class="form-checkbox text-green-500" />
             Chef de salle
           </label>
-          <input class="p-2 rounded bg-gray-700 col-span-2" type="text" id="children" placeholder="Enfants (séparés par des virgules)">
+
+          <input class="p-2 rounded bg-gray-700 col-span-2" type="text" id="children" placeholder="Enfants (séparés par des virgules)" />
+
+          <input class="p-2 rounded bg-gray-700 col-span-2" type="number" id="level" placeholder="Niveau (1 à 50)" min="1" max="50" required />
+
           <button class="col-span-2 bg-blue-600 hover:bg-blue-700 p-2 rounded" type="submit">Valider</button>
         </form>
       </div>
 
+      <!-- Section Familles -->
       <div class="bg-gray-800 p-4 rounded-xl shadow mb-6">
         <h2 class="text-2xl mb-2">👨‍👩‍👧‍👦 Familles</h2>
         <div id="families" class="space-y-2"></div>
       </div>
 
+      <!-- Détails du résident -->
       <div id="residentDetails" class="bg-gray-800 p-4 rounded-xl shadow mb-6 hidden">
         <h2 class="text-2xl mb-2">👤 Détails du résident</h2>
         <div id="detailsContent"></div>
       </div>
 
+      <!-- Liste des salles -->
       <div class="overflow-x-auto">
         <table class="table-auto w-full text-left bg-gray-800 rounded-xl">
           <thead class="bg-gray-700">
@@ -66,12 +81,14 @@
         </table>
       </div>
 
+      <!-- Résidents par salle -->
       <div class="mt-10">
         <h2 class="text-3xl font-bold mb-4">📂 Résidents par salle</h2>
         <div id="roomCategories" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
       </div>
     </div>
 
+    <!-- Colonne droite : liste de tous les résidents -->
     <div class="w-64 bg-gray-800 p-4 rounded-xl shadow h-fit">
       <h2 class="text-2xl mb-4">📋 Résidents</h2>
       <ul id="residentList" class="space-y-2"></ul>
@@ -239,6 +256,5 @@
     });
   });
 </script>
-
 </body>
 </html>
