@@ -137,7 +137,7 @@
       ${r.firstName} ${r.lastName}
     </button>
     <button onclick='increaseLevel(${index})' class='text-green-400 hover:text-green-600'>
-      + ${r.partner ? "👩‍❤️‍💋‍👨" : "👤"}
+      + ${r.partner ? "👩‍❤️‍💋‍👨" : "👤"} ${r.gender === "Homme" ? "♂️" : "♀️"}
     </button>
   </li>`;
     });
