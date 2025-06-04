@@ -49,7 +49,17 @@
         <h2 class="text-2xl mb-2">👨‍👩‍👧‍👦 Familles</h2>
         <div id="families" class="space-y-2"></div>
       </div>
-
+      <div class="overflow-x-auto">
+              <table class="table-auto w-full text-left bg-gray-800 rounded-xl">
+                <thead class="bg-gray-700">
+                  <tr>
+                    <th class="p-2">Salle</th>
+                    <th class="p-2">Résidents</th>
+                  </tr>
+                </thead>
+                <tbody id="roomTable"></tbody>
+              </table>
+            </div>
       <div id="residentDetails" class="bg-gray-800 p-4 rounded-xl shadow mb-6 hidden">
         <h2 class="text-2xl mb-2">👤 Détails du résident</h2>
         <div id="detailsContent"></div>
