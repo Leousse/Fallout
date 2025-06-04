@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -78,11 +79,6 @@
     </div>
   </div>
 
-  <div class="mt-10 bg-gray-800 p-4 rounded-xl shadow">
-    <h2 class="text-2xl mb-4">🧑‍🤝‍🧑 Résidents par sexe</h2>
-    <div class="grid grid-cols-2 gap-4" id="genderColumns"></div>
-  </div>
-
 <script>
   let residents = [];
   let editingIndex = null;
@@ -140,7 +136,9 @@
     <button class='text-left hover:text-yellow-300 underline' onclick='showDetails(${index})'>
       ${r.firstName} ${r.lastName}
     </button>
-    <button onclick='increaseLevel(${index})' class='text-green-400 hover:text-green-600'>+1</button>
+    <button onclick='increaseLevel(${index})' class='text-green-400 hover:text-green-600'>
+      + ${r.partner ? "👩‍❤️‍💋‍👨" : "👤"}
+    </button>
   </li>`;
     });
   }
@@ -148,7 +146,6 @@
   function showDetails(index) {
     const r = residents[index];
     editingIndex = index;
-    const detailBox = document.getElementById("residentDetails");
     const content = document.getElementById("detailsContent");
     content.innerHTML = `
       <p><strong>Nom :</strong> ${r.firstName} ${r.lastName}</p>
@@ -163,7 +160,7 @@
         <button onclick='deleteResident(${index})' class='bg-red-600 hover:bg-red-700 p-2 rounded'>🗑️ Supprimer</button>
       </div>
     `;
-    detailBox.classList.remove("hidden");
+    document.getElementById("residentDetails").classList.remove("hidden");
   }
 
   function loadResidentForEdit(index) {
@@ -212,28 +209,6 @@
     }
   }
 
-  function renderGenderColumns() {
-    const container = document.getElementById("genderColumns");
-    container.innerHTML = "";
-
-    const femmes = residents.filter(r => r.gender === "Femme");
-    const hommes = residents.filter(r => r.gender === "Homme");
-
-    function formatList(list) {
-      return list.map(r => `
-        <div>
-          <strong>${r.firstName} ${r.lastName}</strong><br>
-          <em>${r.partner ? "💞 En couple" : "👤 Célibataire"}</em>
-        </div>
-      `).join("");
-    }
-
-    container.innerHTML = `
-      <div><h3 class="text-xl mb-2">👩 Femmes</h3>${formatList(femmes)}</div>
-      <div><h3 class="text-xl mb-2">👨 Hommes</h3>${formatList(hommes)}</div>
-    `;
-  }
-
   function increaseLevel(index) {
     if (residents[index].level < 50) {
       residents[index].level += 1;
@@ -255,7 +230,6 @@
   }
 
   function renderAll() {
-    renderGenderColumns();
     saveToLocalStorage();
     renderFamilies();
     renderRooms();
@@ -268,7 +242,6 @@
     loadFromLocalStorage();
     document.getElementById("addForm").addEventListener("submit", e => {
       e.preventDefault();
-
       const firstName = document.getElementById("firstName").value;
       const lastName = document.getElementById("lastName").value;
       const gender = document.getElementById("gender").value;
