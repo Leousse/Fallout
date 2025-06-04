@@ -132,13 +132,16 @@
     list.innerHTML = "";
     residents.forEach((r, index) => {
       list.innerHTML += `
-  <li class="flex justify-between items-center">
+  <li class="flex justify-between items-center border-t border-gray-600 pt-2">
     <button class='text-left hover:text-yellow-300 underline' onclick='showDetails(${index})'>
       ${r.firstName} ${r.lastName}
     </button>
-    <button onclick='increaseLevel(${index})' class='text-green-400 hover:text-green-600'>
-      + ${r.partner ? "👩‍❤️‍💋‍👨" : "👤"} ${r.gender === "Homme" ? "♂️" : "♀️"}
-    </button>
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-gray-400">Lvl ${r.level}</span>
+      <button onclick='increaseLevel(${index})' class='text-green-400 hover:text-green-600'>
+        + ${r.partner ? "👩‍❤️‍💋‍👨" : "👤"} ${r.gender === "Homme" ? "♂️" : "♀️"}
+      </button>
+    </div>
   </li>`;
     });
   }
