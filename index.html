@@ -112,20 +112,7 @@
     });
   }
 
-  function renderRooms() {
-    const table = document.getElementById("roomTable");
-    const rooms = {};
-    residents.forEach((r, index) => {
-      if (!rooms[r.job]) rooms[r.job] = [];
-      rooms[r.job].push({ ...r, index });
-    });
 
-    table.innerHTML = "";
-    for (const [room, people] of Object.entries(rooms)) {
-      const list = people.map(p => `<span class='cursor-pointer underline hover:text-yellow-400' onclick='showDetails(${p.index})'>${p.firstName} ${p.lastName}${p.isChief ? " 👑" : ""}</span>`).join(", ");
-      table.innerHTML += `<tr><td class='p-2'>${room}</td><td class='p-2'>${list}</td></tr>`;
-    }
-  }
 
   function renderResidentList() {
     const list = document.getElementById("residentList");
