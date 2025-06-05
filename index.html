@@ -40,7 +40,7 @@
             <input type="checkbox" id="isChief" class="form-checkbox text-green-500">
             Chef de salle
           </label>
-          <input class="p-2 rounded bg-gray-700 col-span-2" type="text" id="children" placeholder="Enfants (séparés par des virgules)">
+          <select id="children" class="p-2 rounded bg-gray-700 col-span-2" multiple></select>
           <button class="col-span-2 bg-blue-600 hover:bg-blue-700 p-2 rounded" type="submit">Valider</button>
         </form>
       </div>
@@ -192,6 +192,19 @@ function renderRooms() {
     document.getElementById("addFormContainer").classList.remove("hidden");
   }
 
+  function updateChildrenOptions() {
+  const select = document.getElementById("children");
+  const selectedValues = Array.from(select.selectedOptions).map(opt => opt.value);
+  select.innerHTML = "";
+  residents.forEach((r, index) => {
+    const name = `${r.firstName} ${r.lastName}`;
+    if (editingIndex === null || index !== editingIndex) {
+      const isSelected = selectedValues.includes(name);
+      select.innerHTML += `<option value="${name}" ${isSelected ? "selected" : ""}>${name}</option>`;
+    }
+  });
+}
+
   function deleteResident(index) {
     if (confirm("Supprimer ce résident ?")) {
       residents.splice(index, 1);
@@ -261,7 +274,7 @@ function renderRooms() {
       const partner = document.getElementById("partner").value;
       const job = document.getElementById("job").value;
       const isChief = document.getElementById("isChief").checked;
-      const children = document.getElementById("children").value.split(",").map(c => c.trim()).filter(c => c);
+      const children = Array.from(document.getElementById("children").selectedOptions).map(o => o.value);
       const level = parseInt(document.getElementById("level").value) || 1;
 
       const newData = { firstName, lastName, gender, partner, job, isChief, children, level };
